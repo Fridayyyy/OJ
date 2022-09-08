@@ -41,9 +41,7 @@ n
 error
 error
 44
-
-
-        */
+*/
 #include <iostream>
 
 #define ok 0;
