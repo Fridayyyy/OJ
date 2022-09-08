@@ -45,11 +45,9 @@ Node* LinkList::LL_index(int i) {
     if(len<i){
         return nullptr;
     }
-    int n=0;
-    Node* res;
-    while (n-1!=i){
-        res=head->next;
-        n++;
+    Node* res=head->next;
+    for (int j = 1; j < i; ++j) {
+        res=res->next;
     }
     return res;
 }
@@ -63,7 +61,7 @@ int LinkList::LL_insert(int i, int item) {
     }
     Node* temp=head;
 
-    for (int j = 2; j < i; ++j) {
+    for (int j = 1; j < i; ++j) {
         temp=temp->next;
     }
     Node *node=new Node(item);
@@ -78,12 +76,16 @@ int LinkList::LL_insert(int i, int item) {
 int LinkList::LL_del(int i) {
     if (len<i)
         return error;
-    int n=0;
-    while(n+1!=i){
-        head=head->next;
-        n++;
+    Node* temp=head;
+    for (int j = 1; j < i; ++j) {
+        temp=temp->next;
     }
-    head->next=head->next->next;
+
+    if (temp->next->next){
+        temp->next=temp->next->next;
+    } else{
+        temp->next= nullptr;
+    }
 
     len--;
     return error;
@@ -110,6 +112,57 @@ int main(){
     }
     head->LL_display();
 
+    //第一次插入
+    int p,q,val1,val2;
+    std::cin>>p>>val1;
+    if (p>head->len+1){
+        std::cout<<"error"<<std::endl;
+    } else{
+        head->LL_insert(p,val1);
+        head->LL_display();
+    }
+    //第二次插入
+    std::cin>>q>>val2;
+    if (q>head->len+1){
+        std::cout<<"error"<<std::endl;
+    } else{
+        head->LL_insert(q,val2);
+        head->LL_display();
+    }
+
+    //删除1
+    int d1,d2;
+    std::cin>>d1;
+    if (d1>head->len||d1<=0){
+        std::cout<<"error"<<std::endl;
+    } else{
+        head->LL_del(d1);
+        head->LL_display();
+    }
+    //删除2
+    std::cin>>d2;
+    if (d2>head->len||d2<=0){
+        std::cout<<"error"<<std::endl;
+    } else{
+        head->LL_del(d2);
+        head->LL_display();
+    }
+
+    //查找1
+    int s1,s2;
+    std::cin>>s1;
+    if (s1>head->len||s1<=0){
+        std::cout<<"error"<<std::endl;
+    } else{
+        std::cout<<head->LL_get(s1)<<std::endl;
+    }
+    //查找2
+    std::cin>>s2;
+    if (s2>head->len||s2<=0){
+        std::cout<<"error"<<std::endl;
+    } else{
+        std::cout<<head->LL_get(s2)<<std::endl;
+    }
     return 0;
 }
 
