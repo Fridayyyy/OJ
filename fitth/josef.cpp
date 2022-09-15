@@ -21,38 +21,41 @@ public:
 };
 class DList{
     Node* head;
-    int size;
 public:
-    DList(int n);
-    void del(Node* node);
-    void insert(Node* node);
+    explicit DList(int n);
     ~DList();
-    void helper();
+    void helper(int k,int s);
 };
 
 DList::DList(int n) {
-    this->size=n;
     this->head=new Node();
     Node* temp=head;
 
-    for (int i = 0; i < n; ++i) {
-        temp->next=new Node(n);
+    for (int i = 1; i < n+1; ++i) {
+        temp->next=new Node(i);
+        temp=temp->next;
     }
     temp->next=head->next;
 }
 
-void DList::helper() {
-
+void DList::helper(int k,int s) {
+    Node* temp=head->next;
+    while (temp){
+        for (int i = 1; i < k+s-2; ++i) {
+            temp=temp->next;
+        }
+        cout<<"temp.val:"<<temp->val<<endl;
+        if (temp->val==temp->next->val){
+            cout<<temp->val<<" ";
+            temp= nullptr;
+            cout<<"break"<<endl;
+            break;
+        }
+        cout<<temp->next->val<<" "<<endl;
+        temp->next=temp->next->next;
+    }
 }
 DList::~DList() {
-
-}
-
-void DList::insert(Node *node) {
-
-}
-
-void DList::del(Node *node) {
 
 }
 
@@ -60,5 +63,5 @@ int main(){
     int N,K,S;
     cin>>N>>K>>S;
     DList* dList=new DList(N);
-
+    dList->helper(K,S);
 }

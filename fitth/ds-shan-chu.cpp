@@ -31,7 +31,7 @@ public:
     ~List();
     void insert(int val);
     int getSize();
-    void display();
+    void display(int i,int n);
 };
 
 List::List() {
@@ -57,29 +57,51 @@ int List::getSize() {
     return this->size;
 }
 
-void List::display() {
+void List::display(int i,int n) {
     Node* temp=head->next;
-    cout<<getSize()<<":";
+    cout<<getSize()<<": ";
     while (temp){
-        cout<<temp->val<<" ";
+        if (!temp->next){
+            cout<<temp->val;
+        } else{
+            cout<<temp->val<<" ";
+        }
+
         temp=temp->next;
     }
-    cout<<endl;
+    if (i<n){
+        cout<<"\n";
+    }
+
 }
 
 
 int main(){
     int n;
     cin>>n;
+
+    vector<vector<int>> vectors;
+
+
     for (int i = 0; i < n; ++i) {
-        int m;
-        cin>>m;
-        List *list=new List;
-        for (int j = 0; j < m; ++j) {
-            int val;
-            cin>>val;
-            list->insert(val);
+
+        vector<int> vec;
+        int num;
+        while (cin>>num){
+            vec.push_back(num);
+            char ch=getchar();
+            if (ch=='\n'){
+                break;
+            }
         }
-        list->display();
+        vectors.push_back(vec);
+
+    }
+    for (int i = 0; i < vectors.size(); ++i) {
+        List* list=new List;
+        for (int j = 1; j < vectors[i].size(); ++j) {
+            list->insert(vectors[i].at(j));
+        }
+        list->display(i+1,n);
     }
 }
