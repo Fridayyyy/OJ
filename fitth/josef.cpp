@@ -1,67 +1,55 @@
-//
-// Created by 86184 on 2022/9/14.
-//
-#include <iostream>
-
+#include<iostream>
 using namespace std;
 
-class Node{
+class Joseph
+{
 public:
-    Node* next;
-    int val;
-
-    Node(){
-        this->val=-1;
-        next= nullptr;
+    Joseph(int m_n,int m_m,int m_k)
+    {
+        n=m_n;
+        m=m_m;
+        k=m_k;
     }
-    Node(int i){
-        this->val=i;
-        next= nullptr;
-    }
-};
-class DList{
-    Node* head;
-public:
-    explicit DList(int n);
-    ~DList();
-    void helper(int k,int s);
-};
-
-DList::DList(int n) {
-    this->head=new Node();
-    Node* temp=head;
-
-    for (int i = 1; i < n+1; ++i) {
-        temp->next=new Node(i);
-        temp=temp->next;
-    }
-    temp->next=head->next;
-}
-
-void DList::helper(int k,int s) {
-    Node* temp=head->next;
-    while (temp){
-        for (int i = 1; i < k+s-2; ++i) {
-            temp=temp->next;
+    void simulate()
+    {
+        int a[1000]={0},i,j=0,t=0;
+        for(i=k-1;t<n-1;i++)
+        {
+            if(a[i]!=1)
+            {
+                j++;
+            }
+            if(j==m)
+            {
+                cout<<i+1<<" ";
+                a[i]=1;
+                j=0;
+                t++;
+            }
+            if((i+1)==n)
+            {
+                i=(-1);
+            }
         }
-        cout<<"temp.val:"<<temp->val<<endl;
-        if (temp->val==temp->next->val){
-            cout<<temp->val<<" ";
-            temp= nullptr;
-            cout<<"break"<<endl;
-            break;
+        for(i=0;i<n;i++)
+        {
+            if(a[i]!=1) cout<<i+1<<endl;
         }
-        cout<<temp->next->val<<" "<<endl;
-        temp->next=temp->next->next;
+
     }
-}
-DList::~DList() {
+private:
+    int n;
+    int m;
+    int k;
+};
 
-}
-
-int main(){
-    int N,K,S;
-    cin>>N>>K>>S;
-    DList* dList=new DList(N);
-    dList->helper(K,S);
+int main()
+{
+    int m,n,k;
+    for (int i = 0; i < 2; ++i) {
+        cin>>n>>m>>k;
+        Joseph obj(n, m,k);
+        obj.simulate();
+    }
+    return 0;
 }
