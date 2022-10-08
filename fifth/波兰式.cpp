@@ -122,11 +122,11 @@ void niBolan(string str){
         que1.push(' ');
         stk2.pop();
     }
-    while (!que1.empty()){
+    int size=que1.size();
+    for (int i = 1; i < size; ++i) {
         cout<<que1.front();
         que1.pop();
     }
-
     cout<<endl;
 }
 
@@ -138,6 +138,8 @@ int main(){
         cin >> str;
         bolan(str);
         niBolan(str);
-        cout<<endl;
+        if (i!=n-1){
+            cout<<endl;
+        }
     }
 }
