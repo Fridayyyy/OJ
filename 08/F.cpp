@@ -1,21 +1,53 @@
 #include <iostream>
+
 using namespace std;
 
 int B;
 
-struct BiNode{
+class BNode{
+public:
     char data;
-    BiNode *lChild;
-    BiNode *rChild;
-    BiNode():lChild(NULL),rChild(NULL){}
+    BNode *left;
+    BNode *right;
+    BNode(){
+        left= nullptr;
+        right= nullptr;
+    }
 };
-struct TreeNode{
+
+class BTree{
+    BNode *root;
+    void get_leaves(BNode* t,string str){
+        if (t){
+            if (!t->left&&!t->right){
+                cout<<str<<endl;
+            } else{
+                get_leaves(t->left,str+"0 ");
+                get_leaves(t->right,str+"1 ");
+            }
+        }
+    }
+public:
+    void merge(BNode **t,int N){
+        root=t[0];
+        for (int i = 0; i < N-1; ++i) {
+            t[i]->right=t[i+1];
+        }
+    }
+    void getCode(){
+        string str="";
+        get_leaves(root,str);
+    }
+};
+
+class TreeNode{
+public:
     char data;
     TreeNode **child;
-    TreeNode(int b){
-        child=new TreeNode * [b];
-        for (int i = 0; i < b; ++i) {
-            child[i]= nullptr;
+    TreeNode(int n){
+        child=new TreeNode *[n];
+        for (int i = 0; i < n; ++i) {
+            child[i]=nullptr;
         }
     }
 };
@@ -23,17 +55,17 @@ class Tree{
     TreeNode* root;
 public:
     Tree(){
-        root=CreateTree();
+        root=createTree();
     }
-    TreeNode* CreateTree();
-    BiNode* getBiTree(){
-        return transferToBT(root);
+    TreeNode* createTree();
+    BNode* getBTree(){
+        return transfer(root);
     }
-    BiNode* transferToBT(TreeNode *t);
+    BNode* transfer(TreeNode* t);
 };
 
-TreeNode *Tree::CreateTree() {
-    TreeNode *p;
+TreeNode *Tree::createTree() {
+    TreeNode* p;
     char ch;
     cin>>ch;
     if (ch=='0'){
@@ -42,67 +74,40 @@ TreeNode *Tree::CreateTree() {
         p=new TreeNode(B);
         p->data=ch;
         for (int i = 0; i < B; ++i) {
-            p->child[i]=CreateTree();
+            p->child[i]=createTree();
         }
     }
     return p;
 }
 
-BiNode *Tree::transferToBT(TreeNode *t) {
-    BiNode* p= nullptr;
+BNode *Tree::transfer(TreeNode *t) {
+    BNode* p= nullptr;
     if (t){
-        p=new BiNode;
+        p=new BNode;
         p->data=t->data;
-        p->lChild= transferToBT(t->child[0]);
-        if (p->lChild){
-            BiNode *q=p->lChild;
+        p->left= transfer(t->child[0]);
+        if (p->left){
+            BNode *q=p->left;
             for (int i = 1; i < B; ++i) {
-                q->rChild= transferToBT(t->child[i]);
-                if (q->rChild){
-                    q=q->rChild;
-                }
+                q->right= transfer(t->child[i]);
+                if (q->right)
+                    q=q->right;
             }
         }
     }
     return p;
 }
-
-class BiTree{
-    BiNode *root;
-    void get_leaves(BiNode* t,string str){
-        if (t){
-            if (!t->lChild&&!t->rChild){
-                cout<<str<<endl;
-            }
-            get_leaves(t->lChild,str+"0 ");
-            get_leaves(t->rChild,str+"1 ");
-        }
-    }
-public:
-    void merge(BiNode **t,int N){
-        root=t[0];
-        for (int i = 0; i < N-1; ++i) {
-            t[i]->rChild=t[i+1];
-        }
-    }
-    void get_leavesCode(){
-        string str="";
-        get_leaves(root,str);
-    }
-};
-
 int main(){
     int N;
     cin>>N>>B;
     Tree *p=new Tree[N];
-    BiNode **q=new BiNode *[N];
+    BNode **q=new BNode *[N];
 
     for (int i = 0; i < N; ++i) {
-        q[i]=p[i].getBiTree();
+        q[i]=p[i].getBTree();
     }
-    BiTree biT;
-    biT.merge(q,N);
-    biT.get_leavesCode();
-
+    BTree bt;
+    bt.merge(q,N);
+    bt.getCode();
     return 0;
 }
