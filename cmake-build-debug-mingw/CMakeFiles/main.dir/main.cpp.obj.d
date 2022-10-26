@@ -130,7 +130,4 @@ CMakeFiles/main.dir/main.cpp.obj: D:\CLionProjects\OJ\main.cpp \
  D:/clion/CLION2~1.1/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/basic_ios.tcc \
  D:/clion/CLION2~1.1/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/ostream.tcc \
  D:/clion/CLION2~1.1/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/istream \
- D:/clion/CLION2~1.1/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/istream.tcc \
- D:/clion/CLION2~1.1/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/cstring \
- D:/clion/CLION2~1.1/bin/mingw/x86_64-w64-mingw32/include/string.h \
- D:/clion/CLION2~1.1/bin/mingw/x86_64-w64-mingw32/include/sec_api/string_s.h
+ D:/clion/CLION2~1.1/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/istream.tcc
