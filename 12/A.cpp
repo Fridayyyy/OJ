@@ -1,22 +1,41 @@
 #include <iostream>
-
+#include <queue>
+#include <vector>
+#include <algorithm>
 using namespace std;
 #define MAX 9999
-class Node{
+class Edge{
 public:
-    string data;
+    string start,end;
     int weight;
+    Edge(){
+        start="";
+        end="";
+        weight=0;
+    }
+    Edge(string s,string e,int w){
+        start=s;
+        end=e;
+        weight=w;
+    }
 };
+
+bool compare(Edge a,Edge b){
+    return a.weight<b.weight;
+}
 
 class Graph{
 
     int vexNum;
     string startPos;
-//    int edgeNum;
+
+    vector<Edge> edges;
+    vector<int> father;
+    vector<Edge> result;
+    queue<Edge*> edge;
 
     string *vexes;
     int **matrix;
-    string *nodes;
     bool *visited;
     int minWeight;
 
@@ -28,6 +47,7 @@ class Graph{
         }
         return -1;
     }
+
     bool over(){
         for (int i = 0; i < vexNum; ++i) {
             if (!visited[i])
@@ -41,6 +61,7 @@ public:
         minWeight=0;
         cin>>vexNum;
         vexes=new string[vexNum];
+
         for (int i = 0; i < vexNum; ++i) {
             cin>>vexes[i];
         }
@@ -57,6 +78,8 @@ public:
 
         int arcNum;
         cin>>arcNum;
+
+        edges=vector<Edge>(arcNum);
         for (int i = 0; i < arcNum; ++i) {
             string str1,str2;
             int w;
@@ -65,31 +88,80 @@ public:
             int index2= Index(str2);
 
             matrix[index1][index2]=w;
+            matrix[index2][index1]=w;
+
+            if (str1<str2){
+                edges[i].start=str1;
+                edges[i].end=str2;
+            } else{
+                edges[i].start=str2;
+                edges[i].end=str1;
+            }
+            edges[i].weight=w;
         }
 
         cin>>startPos;
     }
     void Prim(){
-        int v=0;
+        int v= Index(startPos);
         visited[v]=true;
         while (!over()){
-            int min=MAX,temp=-1;
+            int min=MAX,start=-1,end=-1;
             for (int i = 0; i < vexNum; ++i) {
                 if (visited[i]){
                     for (int j = 0; j < vexNum; ++j) {
                         if (!visited[j]&&matrix[i][j]<min){
-                            temp=j;
+                            start=i;
+                            end=j;
                             min=matrix[i][j];
                         }
                     }
                 }
             }
-            visited[temp]=true;
+            Edge* e=new Edge(vexes[start],vexes[end],min);
+            edge.push(e);
+            visited[end]=true;
             minWeight+=min;
         }
         cout<<minWeight<<endl;
+        cout<<"prim:"<<endl;
+
+
+        while (!edge.empty()){
+            cout<<edge.front()->start<<" "<<edge.front()->end<<" "<<edge.front()->weight<<endl;
+            edge.pop();
+        }
+
+    }
+
+
+
+    int findF(int a){
+        while (a!=father[a]){
+            a=father[a];
+        }
+        return a;
     }
     void Kruskal(){
+        father.resize(vexNum);
+        sort(edges.begin(),edges.end(), compare);
+        for (int i = 0; i < vexNum; ++i) {
+            father[i]=i;
+
+        }
+        for (int i = 0; i < edges.size()&&result.size()<vexNum-1; ++i) {
+            string s=edges[i].start;
+            string e=edges[i].end;
+            if (findF(Index(s))!= findF(Index(e))){
+                result.push_back(edges[i]);
+                father[findF(Index(s))]=father[findF(Index(e))];
+            }
+
+        }
+        cout<<"kruskal:"<<endl;
+        for (auto & i : result) {
+            cout<<i.start<<" "<<i.end<<" "<<i.weight<<endl;
+        }
 
     }
 };
@@ -97,5 +169,5 @@ public:
 int main(){
     Graph graph;
     graph.Prim();
-    //graph.Kruskal();
+    graph.Kruskal();
 }
