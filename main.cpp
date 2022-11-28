@@ -4,7 +4,8 @@ using namespace std;
 
 class Node{
 public:
-    int val;
+    int key;
+    int data;
     int depth;
     Node* left;
     Node* right;
@@ -12,10 +13,10 @@ public:
     //int height;
     Node(){
         left=parent=right= nullptr;
-
     }
-    Node(int v){
-        val=v;
+    Node(int k,int d){
+        key=k;
+        data=d;
         depth=0;
         left=right=parent= nullptr;
     }
@@ -28,16 +29,17 @@ public:
     Tree(){
 
     }
-    Tree(int v){
-        root->val=v;
+    Tree(int k,int d){
+        root->key=k;
+        root->data=d;
         root->depth=0;
     }
 
     int diff(Node* node){
         return getHeight(node->left)- getHeight(node->right);
     }
-    void insert(int k){
-        Node* newNode=new Node(k);
+    void insert(int k,int d){
+        Node* newNode=new Node(k,d);
         if (!root){
             root=newNode;
             return;
@@ -46,14 +48,14 @@ public:
         Node* temp=root;
         while (true){
 
-            if (temp->val > k){
+            if (temp->key > k){
                 if (temp->left){
                     temp=temp->left;
                 } else{
                     temp->left=newNode;
                     break;
                 }
-            } else if (temp->val < k){
+            } else if (temp->key < k){
                 if (temp->right){
                     temp=temp->right;
                 } else{
@@ -65,7 +67,13 @@ public:
         root= balance(root);
 
     }
-    void del(){
+    void del(int k){
+
+    }
+    void getMax(){
+
+    }
+    void getMin(){
 
     }
     int getHeight(Node* node){
