@@ -11,6 +11,7 @@ public:
         for (int i = 0; i < 26; ++i) {
             child[i]= nullptr;
         }
+        data=0;
     }
     Node(char c){
         data=c;
@@ -42,59 +43,94 @@ public:
         queue<Node*> que;
         que.push(root);
         while (!que.empty()){
-            auto temp=que.front();
+            Node* temp=que.front();
             que.pop();
-            cout<<temp->data;
+            //cout<<temp->data;
             for (int i = 0; i < 26; ++i) {
                 if (temp->child[i]){
+                    cout<<temp->child[i]->data;
                     que.push(temp->child[i]);
                 }
             }
         }
         cout<<endl;
     }
-    void getPre(string str){
+    int getPre(string str){
+        int sum=0;
+        Node* temp=root;
+        for (int i = 0; i < str.size(); ++i) {
+            char c=str[i];
+            if (temp->child[c-'a']== nullptr){
+                return 0;
+            }
+            temp=temp->child[c-'a'];
+        }
+        helper(temp,sum);
+        return sum;
+    }
 
+    void helper(Node *node,int &sum){
+        Node* temp=node;
+        bool isEnd= false;
+        for (auto & i : temp->child) {
+            if (i){
+                helper(i,sum);
+                isEnd= true;
+            }
+        }
+        if (!isEnd){
+            sum++;
+            return;
+        }
     }
 
     void parse(string str){
         string str1;
-        for (int i = 0; i < str.size(); ++i) {
-            char ch=str.at(i);
+        for (char ch : str) {
             if (ch==' '){
                 insert(str1);
-                cout<<
+                //cout<<str1<<" ";
                 str1.clear();
             } else{
                 str1.push_back(ch);
             }
         }
+        //cout<<str1<<endl;
+        insert(str1);
     }
     void main(string str){
         parse(str);
-
         BFS();
 
-//        int n;
-//        cin>>n;
-//        while (n--){
-//            string str;
-//            cin>>str;
-//            getPre(str);
-//        }
+        int n;
+        cin>>n;
+        while (n--){
+            string str1;
+            cin>>str1;
+            cout<<getPre(str1)<<endl;
+        }
     }
 };
 
 
 
 int main(){
+    char ch;
     string str;
-    while (1){
-        getline(cin,str);
-        if (!str.size()){
-            break;
+    while ((ch=getchar())!=EOF){
+        //string str;
+        //getline(cin,str);
+        //cout<<str.size()<<endl;
+//        if (str.size()==0){
+//            break;
+//        }
+        if (ch=='\n'){
+            Trie trie;
+            trie.main(str);
+            //getchar();
+        } else{
+            str.push_back(ch);
         }
-        Trie trie;
-        trie.main(str);
+
     }
 }
