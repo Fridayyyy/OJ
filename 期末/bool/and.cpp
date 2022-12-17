@@ -1,9 +1,10 @@
-#include "期末/bool/M.h";
+#include "M.h";
 
 using namespace std;
 
+//布尔模型的类
 class BE{
-    M m;
+    M m;//索引表类
 public:
     BE(){
         m.CreateIndex();
