@@ -1,4 +1,4 @@
-#include "期末/bool/M.h";
+#include "M.h";
 
 using namespace std;
 
@@ -12,6 +12,32 @@ public:
     //构建的索引表
     vector<Res> search(string str){
         return m.queryProcess(str);
+    }
+
+    //处理输入的字符串
+    vector<string> parseLine(string str){
+        vector<string> res;
+        string temp;
+        for (int i = 0; i < str.size(); ++i) {
+            char ch=str.at(i);
+            if (ch=='('||ch==')'){
+                if (!temp.empty()){
+                    res.push_back(temp);
+                    temp.clear();
+                }
+                temp.push_back(ch);
+                res.push_back(temp);
+                temp.clear();
+            }
+            if (ch==' '){
+                res.push_back(temp);
+                temp.clear();
+            } else{
+                temp.push_back(ch);
+            }
+        }
+        res.push_back(temp);
+        return res;
     }
 
 //输入输出参数为文档编号的数组
@@ -94,11 +120,6 @@ public:
             que.push(temp);
         }
 
-
-//        while (!que.empty()){
-//            cout<<que.front()<<" ";
-//            que.pop();
-//        }
         return que;
     }
 //计算波兰式
@@ -135,49 +156,25 @@ public:
         }
         return stk3.top();
     }
-    //处理输入的字符串
-    vector<string> parseLine(string str){
-        vector<string> res;
-        string temp;
-        for (int i = 0; i < str.size(); ++i) {
-            char ch=str.at(i);
-            if (ch=='('||ch==')'){
-                if (!temp.empty()){
-                    res.push_back(temp);
-                    temp.clear();
-                }
-                temp.push_back(ch);
-                res.push_back(temp);
-                temp.clear();
-            }
-            if (ch==' '){
-                res.push_back(temp);
-                temp.clear();
-            } else{
-                temp.push_back(ch);
-            }
-        }
-        res.push_back(temp);
-        return res;
-    }
+
     //输出前后4字符
-    string parseOUt(int doc,int pos){
-        string res;
-        ifstream fileIn;
-        string filepath = "C:\\Users\\Administrator\\Desktop\\1.InvertIndexes(2)\\"+m.FindTxtName(doc) + ".txt";
-        fileIn.open(filepath);
-
-
-
-        for (int i = 0; i < 8; ++i) {
-            fileIn.seekg(pos-4+i,ios::beg);
-            char ch;
-            fileIn>>ch;
-            res.push_back(ch);
-        }
-        return res;
-
-    }
+//    string parseOUt(int doc,int pos){
+//        string res;
+//        ifstream fileIn;
+//        string filepath = "C:\\Users\\Administrator\\Desktop\\1.InvertIndexes(2)\\"+m.FindTxtName(doc) + ".txt";
+//        fileIn.open(filepath);
+//
+//
+//
+//        for (int i = 0; i < 8; ++i) {
+//            fileIn.seekg(pos-4+i,ios::beg);
+//            char ch;
+//            fileIn>>ch;
+//            res.push_back(ch);
+//        }
+//        return res;
+//
+//    }
 
 
 };
